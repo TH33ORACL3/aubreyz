@@ -20,6 +20,8 @@
             padding: 10px;
             font-size: 1.5em;
             margin-bottom: 20px;
+            position: relative;
+            z-index: 10;
         }
         #terminal {
             max-width: 800px;
@@ -71,24 +73,27 @@
             padding: 20px;
             border-radius: 5px;
         }
-        .matrix {
-            position: fixed;
+        #game {
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
-            z-index: 1;
+            height: 100vh;
             overflow: hidden;
-            background-color: #000;
+            z-index: 1;
         }
-        .matrix span {
-            color: #00ff00;
-            display: inline-block;
-            font-size: 16px;
+        .letter {
+            position: absolute;
+            font-size: 24px;
+            color: green;
             animation: fall linear;
         }
-        .matrix span.gold {
+        .gold {
             color: gold;
+        }
+        .agent {
+            color: black;
+            text-shadow: 0 0 10px white;
         }
         @keyframes fall {
             from {
@@ -101,7 +106,7 @@
         #player {
             width: 40px;
             height: 40px;
-            background: url('https://upload.wikimedia.org/wikipedia/en/c/c6/NeoTheMatrix.jpg') no-repeat center center; /* Neo character */
+            background: url('https://upload.wikimedia.org/wikipedia/en/c/c6/NeoTheMatrix.jpg') no-repeat center center;
             background-size: contain;
             position: absolute;
             z-index: 3;
@@ -125,7 +130,7 @@
         <span class="prompt"></span>
         <span class="blinking-cursor"></span>
     </div>
-    <div id="game" class="matrix">
+    <div id="game">
         <div id="player"></div>
     </div>
 
@@ -193,7 +198,7 @@
         }
 
         function placeLetter() {
-            const letter = document.createElement('span');
+            const letter = document.createElement('div');
             letter.textContent = randomKoreanChar();
             letter.className = 'letter';
             letter.style.left = `${Math.random() * window.innerWidth}px`;
@@ -205,6 +210,8 @@
 
             if (Math.random() < 0.05) {
                 letter.textContent = randomChineseChar();
+                letter.classList.remove('gold');
+                letter.classList.add('agent');
             }
 
             game.appendChild(letter);
@@ -214,8 +221,34 @@
             });
         }
 
-        function createMatrixEffect() {
-            setInterval(placeLetter, 500);
+        function checkCollision(letter) {
+            const letterRect = letter.getBoundingClientRect();
+            const playerRect = player.getBoundingClientRect();
+
+            return !(
+                playerRect.right < letterRect.left ||
+                playerRect.left > letterRect.right ||
+                playerRect.bottom < letterRect.top ||
+                playerRect.top > letterRect.bottom
+            );
+        }
+
+        function gameLoop() {
+            const letters = Array.from(document.querySelectorAll('.letter'));
+            letters.forEach(letter => {
+                if (checkCollision(letter)) {
+                    if (letter.classList.contains('gold')) {
+                        score += 10;
+                    } else if (letter.classList.contains('agent')) {
+                        score -= 20;
+                    } else {
+                        score++;
+                    }
+                    letter.remove();
+                }
+            });
+
+            requestAnimationFrame(gameLoop);
         }
 
         document.addEventListener('mousemove', (e) => {
@@ -225,7 +258,8 @@
             player.style.top = `${playerY}px`;
         });
 
-        window.onload = createMatrixEffect;
+        setInterval(placeLetter, 500);
+        gameLoop();
     </script>
 </body>
 </html>
