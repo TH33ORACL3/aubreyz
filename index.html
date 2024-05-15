@@ -1,96 +1,319 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script defer src="/_vercel/insights/script.js"></script>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css"
-    />
-    <title>Vercel HTML Starter</title>
-    <meta
-      name="description"
-      content="High-performance HTML based website template."
-    />
-  </head>
-  <body>
-    <h1>Vercel HTML Starter</h1>
-    <p>
-      This template is a simple, but powerful single
-      <code>index.html</code> file deployed to
-      <a href="https://vercel.com">Vercel</a>. When your site is deployed, all
-      static assets (like HTML, JavaScript, CSS, images, and more) are deployed
-      globally to every
-      <a href="https://vercel.com/docs/concepts/edge-network/overview"
-        >Vercel Edge Network</a
-      >
-      region.
-    </p>
-    <h2>Simple, privacy-friendly analytics</h2>
-    <p>
-      Want to understand your visitor traffic? Vercel Analytics gives you
-      first-party, privacy-friendly traffic analytics for your HTML site. This
-      template is already configured using the following script:
-    </p>
-    <pre><code>&lt;script defer src="/_vercel/insights/script.js"&gt;&lt;/script&gt;</code></pre>
-    <p>
-      Learn more about
-      <a href="https://vercel.com/analytics">Vercel Analytics</a>.
-    </p>
-    <h2>Integrated with git</h2>
-    <p>
-      Deploying updates to your site is as simple as
-      <code>git push</code> thanks to Vercel's advanced
-      <a href="https://vercel.com/docs/concepts/git">Git Integration</a>.
-      Support for GitHub, GitLab, Bitbucket is zero-configuration, and with the
-      flexible Vercel CLI and API, you can integrate with any tool possible.
-    </p>
-    <p>
-      Learn more about
-      <a href="https://vercel.com/docs/concepts/git">Git Integration</a>.
-    </p>
-    <h2>Fast <code>gzip</code> compression</h2>
-    <p>
-      To help ensure the smallest possible file sizes for your static assets,
-      the Vercel Edge Network compresses files by default using
-      <code>gzip</code>. You can also optionally use
-      <code>brotli</code> compressesion if you prefer.
-    </p>
-    <p>
-      Learn more about
-      <a href="https://vercel.com/docs/concepts/edge-network/compression"
-        >compression</a
-      >.
-    </p>
-    <h2>Advanced routing configuration</h2>
-    <p>
-      Vercel gives you a variety of ways to configure the routing of your
-      website. For example, adding redirects, rewrites, or headers to your page.
-      While you can use <code>vercel.json</code> to define these through JSON,
-      you can also express your routing configuration as code using
-      <a href="https://vercel.com/docs/concepts/functions/edge-middleware"
-        >Vercel Edge Middleware</a
-      >.
-    </p>
-    <p>
-      Middleware runs before the
-      <a href="https://vercel.com/docs/concepts/edge-network/caching"
-        >Vercel Edge Network Cache</a
-      >, so you can configure routing exactly as your application needs. For
-      example, this template uses <code>middleware.js</code> defined in the root
-      of the repository to add additional security headers to the site:
-    </p>
-    <pre><code>referrer-policy: origin-when-cross-origin
-strict-transport-security: max-age=31536000; includeSubDomains; preload
-x-content-type-options: nosniff
-x-dns-prefetch-control: on
-x-frame-options: DENY</code></pre>
-    <p>
-      Learn more about
-      <a href="https://vercel.com/docs/concepts/functions/edge-middleware"
-        >Vercel Edge Middleware</a
-      >.
-    </p>
-  </body>
-</html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aubrey Zemba - Personal Webpage</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: monospace;
+            background-color: #000;
+            color: #0f0;
+            margin: 0;
+            padding: 20px;
+            overflow: hidden;
+        }
+        .welcome-banner {
+            background-color: #00ff00;
+            color: #000;
+            text-align: center;
+            padding: 10px;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+        #terminal {
+            max-width: 800px;
+            margin: auto;
+        }
+        .prompt::before {
+            content: "aubrey@personal-website:~$ ";
+        }
+        .command {
+            color: #00f;
+            white-space: pre-wrap;
+            display: inline;
+        }
+        .output {
+            color: #0f0;
+            margin-left: 20px;
+        }
+        .blinking-cursor {
+            display: inline-block;
+            width: 10px;
+            height: 18px;
+            background-color: #0f0;
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        a {
+            color: #00f;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .menu {
+            margin-bottom: 20px;
+        }
+        .menu a {
+            display: block;
+            color: #0f0;
+            text-decoration: none;
+            margin: 5px 0;
+        }
+        .container {
+            background-color: #333;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .matrix {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            background-color: #000;
+        }
+        .matrix span {
+            color: #00ff00;
+            display: inline-block;
+            font-size: 16px;
+            animation: fall 10s linear infinite;
+        }
+        .matrix span.gold {
+            color: gold;
+        }
+        @keyframes fall {
+            0% {
+                transform: translateY(-100%);
+            }
+            100% {
+                transform: translateY(100%);
+            }
+        }
+        #game {
+            position: relative;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            background: url('https://i.imgur.com/7W1oKkS.gif') repeat; /* Matrix code background */
+            background-size: cover;
+        }
+        .letter {
+            position: absolute;
+            font-size: 24px;
+            color: green;
+            animation: fall linear;
+        }
+        .gold {
+            color: gold;
+        }
+        .agent {
+            color: black;
+            text-shadow: 0 0 10px white;
+        }
+        #player {
+            width: 40px;
+            height: 40px;
+            background: url('https://i.imgur.com/UD6RTS1.png') no-repeat center center; /* Neo character */
+            background-size: contain;
+        }
+    </style>
+</head>
+<body>
+    <div class="welcome-banner">
+        Welcome to Aubrey Zemba's Personal Webpage
+    </div>
+    <div id="terminal" class="container">
+        <div class="output">Click on the commands below or type them in the terminal to navigate:</div>
+        <div class="menu">
+            <a href="#" onclick="executeCommand('cat home')">cat home</a>
+            <a href="#" onclick="executeCommand('cat about_me')">cat about_me</a>
+            <a href="#" onclick="executeCommand('cat education')">cat education</a>
+            <a href="#" onclick="executeCommand('cat certifications')">cat certifications</a>
+            <a href="#" onclick="executeCommand('cat experience')">cat experience</a>
+            <a href="#" onclick="executeCommand('cat contact')">cat contact</a>
+        </div>
+        <span class="prompt"></span>
+        <span class="blinking-cursor"></span>
+    </div>
+    <div class="matrix">
+        <!-- Characters will be dynamically added here -->
+    </div>
+    <div class="fixed top-4 right-4 text-2xl text-white">
+        Score: <span id="score">0</span>
+    </div>
+    <div id="game">
+        <div id="player" class="absolute rounded-full"></div>
+    </div>
+
+    <script>
+        const terminal = document.getElementById('terminal');
+        const commands = {
+            'cat home': 'Welcome to my personal webpage! Here you can learn more about my professional background, certifications, and experience in the field of Information Technology.',
+            'cat about_me': 'Hello! I\'m Aubrey Zemba, a seasoned IT professional with a strong background in network support, system administration, and data analysis. My passion for technology drives me to stay updated with the latest trends and advancements in the industry.\n\nIn my free time, I enjoy playing Apex Legends, where I often play as Valkyrie. I also love experimenting with new recipes, with Creamy Chicken and Mushroom Pasta being my favorite dish.',
+            'cat education': '<strong>Nelson Mandela University</strong>\n- National Diploma in Information Technology: Support Services (2010 - 2014)\n- Bachelor of Technology in Information Technology: Communication Networks (2014 - 2015)\n\n<strong>University of South Africa</strong>\n- Research in Informatics in Practice (2015)',
+            'cat certifications': 'Certifications:\n- Cisco Certified Network Associate (CCNA)\n- Cisco Certified Network Professional (CCNP)\n- LPIC-1 Linux Administrator\n- AI Fundamentals\n- Microsoft Certified: Azure Fundamentals\n- IBM AI Fundamentals',
+            'cat experience': 'Professional Experience:\nWith years of experience in the IT field, I have worked on various projects including data extraction and consolidation, network support, and system optimization. Notable projects include:\n- Data extraction and consolidation for Mamatela and Deneys Zeederberg Attorneys, creating detailed expenditure trend analysis.\n- Optimizing the performance of Ghost Practice by identifying and resolving RAM usage issues caused by the PaperCut application.\n- Discussing the feasibility and cost estimation for implementing precision aquaculture technology like AquaBrain Net.',
+            'cat contact': 'Feel free to reach out to me through the following platforms:\n- GitHub: <a href="https://github.com/TH33ORACL3" target="_blank">TH33ORACL3</a>\n- X (formerly Twitter): <a href="https://x.com/TH33ORACL3" target="_blank">@TH33ORACL3</a>\n- LinkedIn: <a href="https://www.linkedin.com/in/aubrey-zemba/" target="_blank">Aubrey Zemba</a>'
+        };
+
+        let currentCommand = '';
+
+        document.addEventListener('keydown', (e) => {
+            const prompt = terminal.querySelector('.prompt:last-child');
+            const cursor = terminal.querySelector('.blinking-cursor');
+
+            if (e.key === 'Enter') {
+                executeCommand(currentCommand);
+                currentCommand = '';
+                const newPrompt = document.createElement('span');
+                newPrompt.classList.add('prompt');
+                terminal.appendChild(newPrompt);
+
+                const newCursor = document.createElement('span');
+                newCursor.classList.add('blinking-cursor');
+                terminal.appendChild(newCursor);
+            } else if (e.key === 'Backspace') {
+                currentCommand = currentCommand.slice(0, -1);
+                prompt.textContent = currentCommand;
+            } else if (e.key.length === 1) {
+                currentCommand += e.key;
+                prompt.textContent = currentCommand;
+            }
+        });
+
+        function executeCommand(command) {
+            const output = document.createElement('div');
+            output.classList.add('output');
+            if (commands[command.trim()]) {
+                output.innerHTML = commands[command.trim()];
+            } else {
+                output.textContent = `bash: ${command.trim()}: command not found`;
+            }
+            terminal.insertBefore(output, terminal.querySelector('.blinking-cursor'));
+        }
+
+        function createMatrixEffect() {
+            const matrix = document.querySelector('.matrix');
+            const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            const goldChars = 'AZ';
+            const screenWidth = window.innerWidth;
+            const screenHeight = window.innerHeight;
+
+            function createFallingChar(isGold = false) {
+                const span = document.createElement('span');
+                span.textContent = isGold ? goldChars[Math.floor(Math.random() * goldChars.length)] : chars[Math.floor(Math.random() * chars.length)];
+                span.classList.add(isGold ? 'gold' : '');
+                span.style.left = `${Math.random() * screenWidth}px`;
+                span.style.animationDuration = `${Math.random() * 5 + 5}s`;
+                span.style.fontSize = `${Math.random() * 24 + 12}px`;
+
+                matrix.appendChild(span);
+
+                span.addEventListener('animationend', () => {
+                    matrix.removeChild(span);
+                });
+            }
+
+            setInterval(() => {
+                createFallingChar();
+                if (Math.random() < 0.1) {
+                    createFallingChar(true);
+                }
+            }, 100);
+        }
+
+        window.onload = createMatrixEffect;
+
+        const koreanChars = 'ㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊㅋㅌㅍㅎㅏㅑㅓㅕㅗㅛㅜㅠㅡㅣ가나다라마바사아자차카타파하'.split('');
+        const chineseChars = '的一是了我不在人们有为这中大上个国到说们地'.split('');
+        let score = 0;
+        const game = document.getElementById('game');
+        const player = document.getElementById('player');
+        const scoreDisplay = document.getElementById('score');
+        const playerSize = 40;
+        let playerX = window.innerWidth / 2;
+        let playerY = window.innerHeight - 100;
+
+        function randomKoreanChar() {
+            return koreanChars[Math.floor(Math.random() * koreanChars.length)];
+        }
+
+        function randomChineseChar() {
+            return chineseChars[Math.floor(Math.random() * chineseChars.length)];
+        }
+
+        function placeLetter() {
+            const letter = document.createElement('div');
+            letter.textContent = randomKoreanChar();
+            letter.className = 'letter';
+            letter.style.left = `${Math.random() * window.innerWidth}px`;
+            letter.style.animationDuration = `${Math.random() * 5 + 2}s`;
+
+            if (Math.random() < 0.1) {
+                letter.classList.add('gold');
+            }
+
+            if (Math.random() < 0.05) {
+                letter.textContent = randomChineseChar();
+                letter.classList.remove('gold');
+                letter.classList.add('agent');
+            }
+
+            game.appendChild(letter);
+
+            letter.addEventListener('animationend', () => {
+                letter.remove();
+            });
+        }
+
+        function checkCollision(letter) {
+            const letterRect = letter.getBoundingClientRect();
+            const playerRect = player.getBoundingClientRect();
+
+            return !(
+                playerRect.right < letterRect.left ||
+                playerRect.left > letterRect.right ||
+                playerRect.bottom < letterRect.top ||
+                playerRect.top > letterRect.bottom
+            );
+        }
+
+        function gameLoop() {
+            const letters = Array.from(document.querySelectorAll('.letter'));
+            letters.forEach(letter => {
+                if (checkCollision(letter)) {
+                    if (letter.classList.contains('gold')) {
+                        score += 10;
+                    } else if (letter.classList.contains('agent')) {
+                        score -= 20;
+                    } else {
+                        score++;
+                    }
+                    scoreDisplay.textContent = score;
+                    letter.remove();
+                }
+            });
+
+            requestAnimationFrame(gameLoop);
+        }
+
+        document.addEventListener('mousemove', (e) => {
+            playerX = e.clientX - playerSize / 2;
+            playerY = e.clientY - playerSize / 2;
+            player.style.left = `${playerX}px`;
+            player.style.top = `${playerY}px`;
+        });
+
+        setInterval(placeLetter, 500);
+        gameLoop();
+    </script>
+</body>
+</html>03:24 2024/05/15
