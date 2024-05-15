@@ -4,15 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aubrey Zemba - Personal Webpage</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
             font-family: monospace;
-            background-color: #000;
+            background-color: black;
             color: #0f0;
             margin: 0;
-            padding: 20px;
             overflow: hidden;
+            cursor: none;
         }
         .welcome-banner {
             background-color: #00ff00;
@@ -25,6 +24,8 @@
         #terminal {
             max-width: 800px;
             margin: auto;
+            z-index: 2;
+            position: relative;
         }
         .prompt::before {
             content: "aubrey@personal-website:~$ ";
@@ -76,7 +77,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1;
+            z-index: 1;
             overflow: hidden;
             background-color: #000;
         }
@@ -84,45 +85,26 @@
             color: #00ff00;
             display: inline-block;
             font-size: 16px;
-            animation: fall 10s linear infinite;
+            animation: fall linear;
         }
         .matrix span.gold {
             color: gold;
         }
         @keyframes fall {
-            0% {
-                transform: translateY(-100%);
+            from {
+                top: -50px;
             }
-            100% {
-                transform: translateY(100%);
+            to {
+                top: 100vh;
             }
-        }
-        #game {
-            position: relative;
-            height: 100vh;
-            width: 100vw;
-            overflow: hidden;
-            background: url('https://i.imgur.com/7W1oKkS.gif') repeat; /* Matrix code background */
-            background-size: cover;
-        }
-        .letter {
-            position: absolute;
-            font-size: 24px;
-            color: green;
-            animation: fall linear;
-        }
-        .gold {
-            color: gold;
-        }
-        .agent {
-            color: black;
-            text-shadow: 0 0 10px white;
         }
         #player {
             width: 40px;
             height: 40px;
-            background: url('https://i.imgur.com/UD6RTS1.png') no-repeat center center; /* Neo character */
+            background: url('https://upload.wikimedia.org/wikipedia/en/c/c6/NeoTheMatrix.jpg') no-repeat center center; /* Neo character */
             background-size: contain;
+            position: absolute;
+            z-index: 3;
         }
     </style>
 </head>
@@ -143,14 +125,8 @@
         <span class="prompt"></span>
         <span class="blinking-cursor"></span>
     </div>
-    <div class="matrix">
-        <!-- Characters will be dynamically added here -->
-    </div>
-    <div class="fixed top-4 right-4 text-2xl text-white">
-        Score: <span id="score">0</span>
-    </div>
-    <div id="game">
-        <div id="player" class="absolute rounded-full"></div>
+    <div id="game" class="matrix">
+        <div id="player"></div>
     </div>
 
     <script>
@@ -200,44 +176,10 @@
             terminal.insertBefore(output, terminal.querySelector('.blinking-cursor'));
         }
 
-        function createMatrixEffect() {
-            const matrix = document.querySelector('.matrix');
-            const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-            const goldChars = 'AZ';
-            const screenWidth = window.innerWidth;
-            const screenHeight = window.innerHeight;
-
-            function createFallingChar(isGold = false) {
-                const span = document.createElement('span');
-                span.textContent = isGold ? goldChars[Math.floor(Math.random() * goldChars.length)] : chars[Math.floor(Math.random() * chars.length)];
-                span.classList.add(isGold ? 'gold' : '');
-                span.style.left = `${Math.random() * screenWidth}px`;
-                span.style.animationDuration = `${Math.random() * 5 + 5}s`;
-                span.style.fontSize = `${Math.random() * 24 + 12}px`;
-
-                matrix.appendChild(span);
-
-                span.addEventListener('animationend', () => {
-                    matrix.removeChild(span);
-                });
-            }
-
-            setInterval(() => {
-                createFallingChar();
-                if (Math.random() < 0.1) {
-                    createFallingChar(true);
-                }
-            }, 100);
-        }
-
-        window.onload = createMatrixEffect;
-
         const koreanChars = 'ㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊㅋㅌㅍㅎㅏㅑㅓㅕㅗㅛㅜㅠㅡㅣ가나다라마바사아자차카타파하'.split('');
         const chineseChars = '的一是了我不在人们有为这中大上个国到说们地'.split('');
-        let score = 0;
         const game = document.getElementById('game');
         const player = document.getElementById('player');
-        const scoreDisplay = document.getElementById('score');
         const playerSize = 40;
         let playerX = window.innerWidth / 2;
         let playerY = window.innerHeight - 100;
@@ -251,7 +193,7 @@
         }
 
         function placeLetter() {
-            const letter = document.createElement('div');
+            const letter = document.createElement('span');
             letter.textContent = randomKoreanChar();
             letter.className = 'letter';
             letter.style.left = `${Math.random() * window.innerWidth}px`;
@@ -263,8 +205,6 @@
 
             if (Math.random() < 0.05) {
                 letter.textContent = randomChineseChar();
-                letter.classList.remove('gold');
-                letter.classList.add('agent');
             }
 
             game.appendChild(letter);
@@ -274,35 +214,8 @@
             });
         }
 
-        function checkCollision(letter) {
-            const letterRect = letter.getBoundingClientRect();
-            const playerRect = player.getBoundingClientRect();
-
-            return !(
-                playerRect.right < letterRect.left ||
-                playerRect.left > letterRect.right ||
-                playerRect.bottom < letterRect.top ||
-                playerRect.top > letterRect.bottom
-            );
-        }
-
-        function gameLoop() {
-            const letters = Array.from(document.querySelectorAll('.letter'));
-            letters.forEach(letter => {
-                if (checkCollision(letter)) {
-                    if (letter.classList.contains('gold')) {
-                        score += 10;
-                    } else if (letter.classList.contains('agent')) {
-                        score -= 20;
-                    } else {
-                        score++;
-                    }
-                    scoreDisplay.textContent = score;
-                    letter.remove();
-                }
-            });
-
-            requestAnimationFrame(gameLoop);
+        function createMatrixEffect() {
+            setInterval(placeLetter, 500);
         }
 
         document.addEventListener('mousemove', (e) => {
@@ -312,8 +225,7 @@
             player.style.top = `${playerY}px`;
         });
 
-        setInterval(placeLetter, 500);
-        gameLoop();
+        window.onload = createMatrixEffect;
     </script>
 </body>
-</html>03:24 2024/05/15
+</html>
