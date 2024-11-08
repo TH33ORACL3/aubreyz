@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Existing CSS Styles */
+        /* Root Variables */
         :root {
             --matrix-green: #00ff00;
             --matrix-dark: #0a0a0a;
@@ -16,8 +16,11 @@
             --header-bg: rgba(0, 0, 0, 0.8);
             --card-bg: rgba(0, 0, 0, 0.7);
             --transition-speed: 0.3s;
+            --max-width: 1200px;
+            --nav-height: 60px;
         }
 
+        /* Global Styles */
         body, html {
             margin: 0;
             padding: 0;
@@ -40,13 +43,14 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: var(--max-width);
             margin: 0 auto;
             padding: 80px 20px 20px 20px;
             position: relative;
             z-index: 1;
         }
 
+        /* Navigation Styles */
         nav {
             position: fixed;
             top: 0;
@@ -55,6 +59,9 @@
             padding: 10px 20px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.5);
             z-index: 1000;
+            height: var(--nav-height);
+            display: flex;
+            align-items: center;
         }
 
         nav ul {
@@ -64,6 +71,7 @@
             gap: 30px;
             margin: 0;
             padding: 0;
+            flex-wrap: wrap;
         }
 
         nav ul li a {
@@ -72,6 +80,7 @@
             font-weight: 700;
             transition: color var(--transition-speed);
             position: relative;
+            padding: 5px 10px;
         }
 
         nav ul li a::after {
@@ -94,6 +103,7 @@
             width: 100%;
         }
 
+        /* Header Styles */
         header {
             text-align: center;
             padding: 100px 0 50px 0;
@@ -118,6 +128,7 @@
             color: var(--matrix-light);
         }
 
+        /* Contact Info Styles */
         .contact-info {
             display: flex;
             justify-content: center;
@@ -134,12 +145,17 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            padding: 8px 12px;
+            border-radius: 5px;
+            transition: background-color var(--transition-speed), color var(--transition-speed);
         }
 
         .contact-info a:hover {
             color: var(--matrix-green);
+            background-color: rgba(0, 255, 0, 0.1);
         }
 
+        /* Section Styles */
         .section {
             margin-bottom: 50px;
             opacity: 0;
@@ -210,6 +226,7 @@
             margin-left: -1em;
         }
 
+        /* Skills Section */
         .skills {
             display: flex;
             flex-wrap: wrap;
@@ -223,6 +240,9 @@
             border-radius: 5px;
             transition: background-color var(--transition-speed), transform var(--transition-speed);
             cursor: default;
+            flex: 1 1 200px;
+            display: flex;
+            flex-direction: column;
         }
 
         .skill:hover {
@@ -230,6 +250,22 @@
             transform: scale(1.05);
         }
 
+        .skill-meter {
+            height: 10px;
+            background-color: rgba(0, 255, 0, 0.1);
+            border-radius: 5px;
+            margin-top: 5px;
+            overflow: hidden;
+        }
+
+        .skill-progress {
+            height: 100%;
+            background-color: var(--matrix-green);
+            width: 0;
+            transition: width 1s ease-out;
+        }
+
+        /* Certifications Section */
         .certifications {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -243,6 +279,7 @@
             border-radius: 10px;
             transition: transform var(--transition-speed), box-shadow var(--transition-speed);
             cursor: pointer;
+            text-align: center;
         }
 
         .cert:hover {
@@ -250,6 +287,7 @@
             box-shadow: 0 4px 15px rgba(0, 255, 0, 0.5);
         }
 
+        /* Footer Styles */
         footer {
             text-align: center;
             padding: 20px 0;
@@ -261,6 +299,7 @@
             border-top: 1px solid var(--matrix-green);
         }
 
+        /* Project Grid */
         .project-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -292,21 +331,7 @@
             color: var(--matrix-light);
         }
 
-        .skill-meter {
-            height: 10px;
-            background-color: rgba(0, 255, 0, 0.1);
-            border-radius: 5px;
-            margin-top: 5px;
-            overflow: hidden;
-        }
-
-        .skill-progress {
-            height: 100%;
-            background-color: var(--matrix-green);
-            width: 0;
-            transition: width 1s ease-out;
-        }
-
+        /* Typing Effect */
         #typing-effect {
             font-family: 'Share Tech Mono', monospace;
             font-size: 1.2em;
@@ -317,6 +342,7 @@
             margin: 0 auto;
             letter-spacing: 0.15em;
             animation: typing 3.5s steps(30, end), blink-caret 0.75s step-end infinite;
+            max-width: 80%;
         }
 
         @keyframes typing {
@@ -329,6 +355,13 @@
             50% { border-color: var(--matrix-green) }
         }
 
+        /* Media Queries for Responsiveness */
+        @media (max-width: 1200px) {
+            .container {
+                padding: 80px 20px 20px 20px;
+            }
+        }
+
         @media (max-width: 1024px) {
             .container {
                 padding: 80px 15px 15px 15px;
@@ -339,6 +372,7 @@
             nav ul {
                 flex-direction: column;
                 gap: 15px;
+                align-items: center;
             }
 
             header {
@@ -352,6 +386,28 @@
             .subtitle {
                 font-size: 1.2em;
             }
+
+            .skills {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .skill {
+                flex: 1 1 100%;
+                max-width: 300px;
+            }
+
+            .certifications {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+
+            .project-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+
+            #typing-effect {
+                max-width: 90%;
+            }
         }
 
         @media (max-width: 480px) {
@@ -362,41 +418,79 @@
             .skills, .certifications {
                 grid-template-columns: 1fr;
             }
+
+            .contact-info a {
+                font-size: 0.9em;
+                padding: 6px 10px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .subtitle {
+                font-size: 1em;
+            }
+
+            #typing-effect {
+                font-size: 1em;
+            }
+
+            /* Adjust Convai Widget for Mobile */
+            elevenlabs-convai {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                width: 80px;
+                height: 80px;
+                z-index: 1001;
+            }
         }
+
+        /* Ensure buttons and links are easily tappable on mobile */
+        a, button {
+            touch-action: manipulation;
+        }
+
     </style>
     
     <!-- Load the Convai widget script with 'defer' to ensure it loads before the custom element -->
     <script src="https://elevenlabs.io/convai-widget/index.js" defer></script>
 </head>
 <body>
+    <!-- Navigation -->
     <nav>
         <ul>
-            <li><a href="#about">About</a></li>
-            <li><a href="#experience">Experience</a></li>
-            <li><a href="#skills">Skills</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#education">Education</a></li>
-            <li><a href="#certifications">Certifications</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="#about" aria-label="About Section">About</a></li>
+            <li><a href="#experience" aria-label="Experience Section">Experience</a></li>
+            <li><a href="#skills" aria-label="Skills Section">Skills</a></li>
+            <li><a href="#projects" aria-label="Projects Section">Projects</a></li>
+            <li><a href="#education" aria-label="Education Section">Education</a></li>
+            <li><a href="#certifications" aria-label="Certifications Section">Certifications</a></li>
+            <li><a href="#contact" aria-label="Contact Section">Contact</a></li>
         </ul>
     </nav>
 
+    <!-- Matrix Background Canvas -->
     <canvas id="matrix-bg"></canvas>
 
+    <!-- Main Container -->
     <div class="container">
+        <!-- Header Section -->
         <header>
             <h1>Aubrey Zemba</h1>
             <div class="subtitle">Cloud & AI Architect | Network Security Expert</div>
             <div id="typing-effect">Transforming digital landscapes, one byte at a time.</div>
             <div class="contact-info">
-                <a href="mailto:Aubrey.Zemba@gmail.com"><i class="fas fa-envelope"></i> Aubrey.Zemba@gmail.com</a>
-                <a href="https://AubreyZemba.com" target="_blank"><i class="fas fa-globe"></i> AubreyZemba.com</a>
-                <a href="https://LinkedIn.com/AubreyZ" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a>
-                <a href="https://GitHub.com/Aubrey" target="_blank"><i class="fab fa-github"></i> GitHub</a>
-                <a href="tel:+27828223757"><i class="fas fa-phone"></i> +27 82 822 3757</a>
+                <a href="mailto:Aubrey.Zemba@gmail.com" aria-label="Email Aubrey Zemba"><i class="fas fa-envelope"></i> Aubrey.Zemba@gmail.com</a>
+                <a href="https://AubreyZemba.com" target="_blank" rel="noopener noreferrer" aria-label="Visit AubreyZemba.com"><i class="fas fa-globe"></i> AubreyZemba.com</a>
+                <a href="https://LinkedIn.com/AubreyZ" target="_blank" rel="noopener noreferrer" aria-label="Visit LinkedIn Profile"><i class="fab fa-linkedin"></i> LinkedIn</a>
+                <a href="https://GitHub.com/Aubrey" target="_blank" rel="noopener noreferrer" aria-label="Visit GitHub Profile"><i class="fab fa-github"></i> GitHub</a>
+                <a href="tel:+27828223757" aria-label="Call Aubrey Zemba"><i class="fas fa-phone"></i> +27 82 822 3757</a>
             </div>
         </header>
 
+        <!-- About Section -->
         <section class="section" id="about">
             <h2>About Me</h2>
             <p>
@@ -407,6 +501,7 @@
             </p>
         </section>
 
+        <!-- Experience Section -->
         <section class="section" id="experience">
             <h2>Work Experience</h2>
             <div class="job">
@@ -445,6 +540,7 @@
             </div>
         </section>
 
+        <!-- Skills Section -->
         <section class="section" id="skills">
             <h2>Skills</h2>
             <div class="skills">
@@ -523,6 +619,7 @@
             </div>
         </section>
 
+        <!-- Projects Section -->
         <section class="section" id="projects">
             <h2>Featured Projects</h2>
             <div class="project-grid">
@@ -545,6 +642,7 @@
             </div>
         </section>
 
+        <!-- Education Section -->
         <section class="section" id="education">
             <h2>Education</h2>
             <div class="job">
@@ -564,6 +662,7 @@
             </div>
         </section>
 
+        <!-- Certifications Section -->
         <section class="section" id="certifications">
             <h2>Certifications</h2>
             <div class="certifications">
@@ -577,47 +676,54 @@
             </div>
         </section>
 
+        <!-- Contact Section -->
         <section class="section" id="contact">
             <h2>Contact</h2>
             <div class="contact-info">
-                <a href="mailto:Aubrey.Zemba@gmail.com"><i class="fas fa-envelope"></i> Aubrey.Zemba@gmail.com</a>
-                <a href="https://AubreyZemba.com" target="_blank"><i class="fas fa-globe"></i> AubreyZemba.com</a>
-                <a href="https://LinkedIn.com/AubreyZ" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a>
-                <a href="https://GitHub.com/Aubrey" target="_blank"><i class="fab fa-github"></i> GitHub</a>
-                <a href="tel:+27828223757"><i class="fas fa-phone"></i> +27 82 822 3757</a>
+                <a href="mailto:Aubrey.Zemba@gmail.com" aria-label="Email Aubrey Zemba"><i class="fas fa-envelope"></i> Aubrey.Zemba@gmail.com</a>
+                <a href="https://AubreyZemba.com" target="_blank" rel="noopener noreferrer" aria-label="Visit AubreyZemba.com"><i class="fas fa-globe"></i> AubreyZemba.com</a>
+                <a href="https://LinkedIn.com/AubreyZ" target="_blank" rel="noopener noreferrer" aria-label="Visit LinkedIn Profile"><i class="fab fa-linkedin"></i> LinkedIn</a>
+                <a href="https://GitHub.com/Aubrey" target="_blank" rel="noopener noreferrer" aria-label="Visit GitHub Profile"><i class="fab fa-github"></i> GitHub</a>
+                <a href="tel:+27828223757" aria-label="Call Aubrey Zemba"><i class="fas fa-phone"></i> +27 82 822 3757</a>
             </div>
         </section>
     </div>
 
+    <!-- Footer -->
     <footer>
         &copy; 2024 Aubrey Zemba. All rights reserved. | Architecting the Digital Matrix
     </footer>
 
+    <!-- JavaScript -->
     <script>
         // Matrix rain effect
         const canvas = document.getElementById('matrix-bg');
         const ctx = canvas.getContext('2d');
 
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        // Set canvas size
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
 
+        // Characters for the matrix effect
         const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
         const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         const nums = '0123456789';
-
         const alphabet = katakana + latin + nums;
 
         const fontSize = 14;
-        const columns = canvas.width / fontSize;
+        const columns = Math.floor(canvas.width / fontSize);
+        const rainDrops = Array(columns).fill(1);
 
-        const rainDrops = Array(Math.floor(columns)).fill(1);
-
-        const draw = () => {
+        // Draw the matrix effect
+        function draw() {
             ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
             ctx.fillStyle = '#00ff00';
-            ctx.font = fontSize + 'px monospace';
+            ctx.font = `${fontSize}px monospace`;
 
             for (let i = 0; i < rainDrops.length; i++) {
                 const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
@@ -628,7 +734,7 @@
                 }
                 rainDrops[i]++;
             }
-        };
+        }
 
         setInterval(draw, 30);
 
@@ -680,11 +786,12 @@
             run();
             typeWriter();
         });
+
         window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+            resizeCanvas();
             run();
         });
+
         window.addEventListener('scroll', run);
     </script>
 
